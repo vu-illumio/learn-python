@@ -2,12 +2,12 @@ class Coordinate(object):
     def __init__(self, x, y):
         self.x = x
         self.y = y
-    def distance(self, point):
-        x_diff = self.x - point.x
-        y_diff = self.y - point.y
-        return (x_diff**2 + y_diff**2)**0.5
     def __str__(self):
         return(f'<{self.x},{self.y}>')
+    def distance(self, other):
+        x_diff = self.x - other.x
+        y_diff = self.y - other.y
+        return (x_diff**2 + y_diff**2)**0.5
 
 class Fraction(object):
     def __init__(self, n, d):
@@ -36,18 +36,16 @@ def fib_recur(n):
         return v
 
 def fib_iter(n):
-    if n == 0:
-        return 0
-    elif n == 1:
-        return 1
+    if n < 2:
+        return n
     else:
-        fib_prev2 = 0
-        fib_prev1 = 1
-        for i in range(1, n):
-            fib = fib_prev1 + fib_prev2
-            fib_prev2 = fib_prev1
-            fib_prev1 = fib
-        return fib
+        f0 = 0
+        f1 = 1
+        for i in range(n-1):
+            f = f0 + f1
+            f0 = f1
+            f1 = f
+        return f
 
 def fact_recur(n):
     if n <= 1:
@@ -59,10 +57,10 @@ def fact_iter(n):
     if n <= 1:
         return 1
     else:
-        fact = 1
+        p = 1
         for i in range(2, n+1):
-            fact = i * fact
-        return fact
+            p *= i
+        return p
 
 def bin_search(e, elist):
     def idx_search(e, elist, idx_lo, idx_hi):
@@ -75,10 +73,10 @@ def bin_search(e, elist):
             if elist[idx_mi] == e:
                 return True
             elif elist[idx_mi] > e:
-                idx_search(e, elist, idx_lo, idx_mi-1)
+                return idx_search(e, elist, idx_lo, idx_mi-1)
             else:
-                idx_search(e, elist, idx_mi+1, idx_hi)
-    idx_search(e, elist, 0, len(elist)-1)
+                return idx_search(e, elist, idx_mi+1, idx_hi)
+    return idx_search(e, elist, 0, len(elist)-1)
 
 # def genSubSets(elist):
 #     if len(elist) == 0:
