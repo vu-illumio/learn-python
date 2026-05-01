@@ -8,19 +8,19 @@ def treeInOrderTraversal(node):
     if node is None:
         return None
     else:
-        inOrderTraversal(node.left)
+        treeInOrderTraversal(node.left)
         print(f'{node.data}', end=',')
-        inOrderTraversal(node.right)
+        treeInOrderTraversal(node.right)
 
 def treeSearch(node, data):
     if node is None:
         return False
-    elif node.data == target:
+    elif node.data == data:
         return True
-    elif node.data > target:
-        return treeSearch(node.left, target)
+    elif node.data > data:
+        return treeSearch(node.left, data)
     else:
-        return treeSearch(node.right, target)
+        return treeSearch(node.right, data)
 
 def treeInsert(node, data):
     if node is None:

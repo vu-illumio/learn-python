@@ -1,5 +1,7 @@
 #!/usr/bin/python3
 
+from collections import Counter
+import string
 import sys
 
 def main():
@@ -10,7 +12,8 @@ def main():
         sys.exit(1)
 
     try:
-        frequency = {}
+#       frequency = {}
+        frequency = Counter()
         with open(filename, 'r') as fd:
 #           while True:
 #               line = fd.readline()
@@ -18,12 +21,15 @@ def main():
 #                   break
             for line in fd:
                 for word in line.split():
-                    if word in frequency:
+                    # normalize word (strip punctuation and make lowercase)
+                    word = word.strip(string.punctuation).lower()
+                    # exclude empty words (punctuation only)
+                    if word:
+#                       frequency[word] = frequency.get(word, 0) + 1
                         frequency[word] += 1
-                    else:
-                        frequency[word] = 1
     except Exception as e:
         print(f'Error: {e}')
+        sys.exit(1)
 
     print(dict(sorted(frequency.items())))
 
