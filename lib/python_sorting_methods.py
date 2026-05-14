@@ -1,6 +1,6 @@
 
 def count_sort(elist):
-    if len(elist) == 0:
+    if len(elist) <= 1:
         return elist
     min_e = min(elist)
     max_e = max(elist)
@@ -99,3 +99,26 @@ def merge(left, right):
             result.append(right[j])
             j += 1
     return result + left[i:] + right[j:]
+
+def radix_sort(elist):
+    if len(elist) <= 1:
+        return elist
+    # Shift the array to handle negative numbers
+    min_e = min(elist)
+    if min_e < 0:
+        elist = [e - min_e for e in elist]
+    max_e = max(elist)
+    place = 1
+    while max_e // place > 0:
+        buckets = [[] for _ in range(10)]
+        for e in elist:
+            idx = (e // place) % 10
+            buckets[idx].append(e)
+        elist = []
+        for b in buckets:
+            elist.extend(b)
+        place *= 10
+    # Shift the array to restore the original values
+    if min_e < 0:
+        elist = [e + min_e for e in elist]
+    return elist
